@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Digital Museum and Heritage Information System</title>
+    <meta name="description" content="Browse and manage a museum's heritage collection. Served by Cloudflare Workers, stored in Workers KV, provisioned with Terraform." />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand">
+          <svg class="emblem" viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M32 6 6 20h52L32 6Z" />
+            <rect x="10" y="22" width="44" height="4" />
+            <rect x="13" y="28" width="5" height="22" />
+            <rect x="23" y="28" width="5" height="22" />
+            <rect x="36" y="28" width="5" height="22" />
+            <rect x="46" y="28" width="5" height="22" />
+            <rect x="8" y="52" width="48" height="5" />
+          </svg>
+          <div>
+            <h1>Digital Museum and Heritage Information System</h1>
+            <p class="subtitle" id="museum-name">Loading museum…</p>
+          </div>
+        </div>
+        <div class="header-meta">
+          <span class="env-badge" id="env-badge">env</span>
+          <span class="version" id="app-version"></span>
+          <button type="button" class="btn btn-ghost" id="curator-btn">Curator login</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="stats" aria-label="Collection statistics">
+        <div class="stat-tiles" id="stat-tiles"></div>
+        <div class="category-bars" id="category-bars" aria-label="Artifacts by category"></div>
+      </section>
+
+      <section class="toolbar" aria-label="Search and filter">
+        <label class="field grow">
+          <span>Search</span>
+          <input type="search" id="search" placeholder="Name, era, origin, gallery or ID…" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>Category</span>
+          <select id="filter-category"><option value="">All categories</option></select>
+        </label>
+        <label class="field">
+          <span>Status</span>
+          <select id="filter-status"><option value="">All statuses</option></select>
+        </label>
+        <label class="field">
+          <span>Sort by</span>
+          <select id="sort">
+            <option value="created">Newest first</option>
+            <option value="name">Name (A-Z)</option>
+            <option value="year">Acquisition year</option>
+            <option value="id">Artifact ID</option>
+          </select>
+        </label>
+        <div class="view-toggle" role="group" aria-label="View">
+          <button type="button" class="btn btn-ghost active" data-view="cards">Gallery</button>
+          <button type="button" class="btn btn-ghost" data-view="table">Table</button>
+        </div>
+        <button type="button" class="btn btn-primary curator-only" id="add-btn">+ Add artifact</button>
+      </section>
+
+      <p class="result-count" id="result-count" aria-live="polite"></p>
+      <section id="cards" class="cards" aria-label="Artifact gallery"></section>
+      <section id="table-wrap" class="table-wrap" hidden>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Artifact</th><th>Category</th><th>Era</th><th>Gallery</th>
+              <th>Condition</th><th>Status</th><th>Created</th><th class="curator-only">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </section>
+      <div class="empty" id="empty" hidden>
+        <p>No artifacts match your search.</p>
+        <p class="hint curator-hint">Log in as a curator to add the first artifact.</p>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      Cloudflare Workers · Workers KV · provisioned with Terraform · deployed by GitHub Actions
+    </footer>
+
+    <dialog id="artifact-dialog" class="dialog">
+      <form method="dialog" id="artifact-form" novalidate>
+        <h2 id="form-title">Add artifact</h2>
+        <div class="form-grid">
+          <label class="field span-2"><span>Artifact name *</span><input name="name" required minlength="2" maxlength="120" /></label>
+          <label class="field"><span>Category *</span><select name="category" required></select></label>
+          <label class="field"><span>Era / period *</span><input name="era" required maxlength="80" placeholder="e.g. Chola Dynasty, 11th century CE" /></label>
+          <label class="field"><span>Origin</span><input name="origin" maxlength="120" placeholder="Place of origin" /></label>
+          <label class="field"><span>Gallery</span><input name="gallery" maxlength="60" placeholder="e.g. Gallery A - Bronzes" /></label>
+          <label class="field"><span>Condition</span><select name="condition"></select></label>
+          <label class="field"><span>Exhibition status</span><select name="status"></select></label>
+          <label class="field"><span>Acquisition year</span><input name="acquisitionYear" type="number" min="1500" step="1" /></label>
+          <label class="field"><span>Image URL</span><input name="imageUrl" type="url" placeholder="https://…" /></label>
+          <label class="field span-2"><span>Description</span><textarea name="description" rows="3" maxlength="2000"></textarea></label>
+        </div>
+        <p class="form-error" id="form-error" role="alert"></p>
+        <div class="dialog-actions">
+          <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+          <button type="submit" class="btn btn-primary" id="form-submit">Save artifact</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="detail-dialog" class="dialog">
+      <div id="detail-body"></div>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-ghost" data-close>Close</button>
+      </div>
+    </dialog>
+
+    <dialog id="login-dialog" class="dialog dialog-narrow">
+      <form method="dialog" id="login-form">
+        <h2>Curator login</h2>
+        <p class="hint">Visitors can browse the collection. Adding, editing and deleting artifacts needs the curator key, which Terraform stores as a Worker secret.</p>
+        <label class="field"><span>Curator key</span><input type="password" id="login-key" autocomplete="current-password" required /></label>
+        <p class="form-error" id="login-error" role="alert"></p>
+        <div class="dialog-actions">
+          <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">Log in</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="/script.js"></script>
+  </body>
+</html>
