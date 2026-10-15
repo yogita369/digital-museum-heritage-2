@@ -1,0 +1,101 @@
+[
+  {
+    "name": "Bronze Nataraja",
+    "category": "Sculpture",
+    "era": "Chola Dynasty, 11th century CE",
+    "origin": "Thanjavur, Tamil Nadu",
+    "gallery": "Gallery A - Bronzes",
+    "condition": "Excellent",
+    "status": "On Display",
+    "acquisitionYear": 1958,
+    "description": "Lost-wax bronze of Shiva as the cosmic dancer, encircled by a ring of flames."
+  },
+  {
+    "name": "Rock Edict Fragment",
+    "category": "Inscription",
+    "era": "Mauryan Empire, 3rd century BCE",
+    "origin": "Sopara, Maharashtra",
+    "gallery": "Gallery B - Epigraphy",
+    "condition": "Fair",
+    "status": "On Display",
+    "acquisitionYear": 1962,
+    "description": "Basalt fragment carrying Brahmi script from an Ashokan edict."
+  },
+  {
+    "name": "Court Scene Miniature",
+    "category": "Painting",
+    "era": "Mughal, late 16th century",
+    "origin": "Agra, Uttar Pradesh",
+    "gallery": "Gallery C - Miniatures",
+    "condition": "Good",
+    "status": "Under Restoration",
+    "acquisitionYear": 1975,
+    "description": "Opaque watercolour and gold on paper showing an imperial court assembly."
+  },
+  {
+    "name": "Gold Dinar of Chandragupta II",
+    "category": "Coin",
+    "era": "Gupta Empire, 4th-5th century CE",
+    "origin": "Uttar Pradesh",
+    "gallery": "Numismatics Gallery",
+    "condition": "Excellent",
+    "status": "On Display",
+    "acquisitionYear": 1981,
+    "description": "Archer-type gold coin, a hallmark of Gupta-period minting."
+  },
+  {
+    "name": "Paithani Silk Saree",
+    "category": "Textile",
+    "era": "Peshwa period, 18th century",
+    "origin": "Paithan, Maharashtra",
+    "gallery": "Textile Gallery",
+    "condition": "Good",
+    "status": "In Storage",
+    "acquisitionYear": 1990,
+    "description": "Hand-woven silk with zari peacock motifs on the border and pallu."
+  },
+  {
+    "name": "Painted Storage Jar",
+    "category": "Pottery",
+    "era": "Indus Valley Civilisation, c. 2500 BCE",
+    "origin": "Harappa region",
+    "gallery": "Gallery A - Prehistory",
+    "condition": "Fair",
+    "status": "On Loan",
+    "acquisitionYear": 1949,
+    "description": "Red-ware jar with black painted pipal-leaf and intersecting-circle patterns."
+  },
+  {
+    "name": "Pata Gauntlet Sword",
+    "category": "Weapon",
+    "era": "Maratha Empire, 17th century",
+    "origin": "Raigad, Maharashtra",
+    "gallery": "Arms and Armour Gallery",
+    "condition": "Good",
+    "status": "On Display",
+    "acquisitionYear": 1968,
+    "description": "Steel blade fixed to an armoured gauntlet, used by Maratha cavalry."
+  },
+  {
+    "name": "Gita Govinda Palm-leaf Manuscript",
+    "category": "Manuscript",
+    "era": "17th century",
+    "origin": "Odisha",
+    "gallery": "Manuscript Room",
+    "condition": "Needs Restoration",
+    "status": "Under Restoration",
+    "acquisitionYear": 1971,
+    "description": "Incised and inked palm-leaf folios of Jayadeva's Gita Govinda."
+  },
+  {
+    "name": "Kundan Necklace",
+    "category": "Jewellery",
+    "era": "Rajput, 19th century",
+    "origin": "Jaipur, Rajasthan",
+    "gallery": "Jewellery Gallery",
+    "condition": "Excellent",
+    "status": "In Storage",
+    "acquisitionYear": 2004,
+    "description": "Gold necklace set with uncut gemstones and enamelled (meenakari) reverse."
+  }
+]
