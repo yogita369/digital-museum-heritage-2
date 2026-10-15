@@ -1,0 +1,38 @@
+# ---- Terraform ----
+# Provider plugins downloaded by `terraform init`
+.terraform/
+# State can contain secrets (e.g. the curator key); it lives in HCP Terraform instead
+*.tfstate
+*.tfstate.*
+# Saved plans can also contain secret values
+tfplan
+*.tfplan
+# Variable files with real account IDs and keys (commit only *.example)
+terraform.tfvars
+*.auto.tfvars
+*.auto.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+crash.log
+crash.*.log
+.terraformrc
+terraform.rc
+# NOTE: .terraform.lock.hcl IS committed - it pins exact provider versions.
+
+# ---- Secrets ----
+.env
+.env.*
+!.env.example
+*.pem
+
+# ---- AI agent working notes (see AGENTS.md) ----
+.setup-progress.md
+
+# ---- Node / editors / OS ----
+node_modules/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
