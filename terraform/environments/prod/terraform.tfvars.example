@@ -1,0 +1,17 @@
+# Copy to terraform.tfvars (which is git-ignored) and fill in your values:
+#   cp terraform.tfvars.example terraform.tfvars
+#
+# Alternatively, export them as environment variables, which is what the
+# GitHub Actions pipeline does:
+#   export TF_VAR_account_id=...  TF_VAR_workers_subdomain=...  TF_VAR_curator_api_key=...
+#
+# Never put the Cloudflare API token here. Use: export CLOUDFLARE_API_TOKEN=...
+
+account_id        = "0123456789abcdef0123456789abcdef"
+workers_subdomain = "your-subdomain"
+curator_api_key   = "replace-with-a-long-random-string"
+
+# Optional overrides (defaults are in variables.tf):
+# museum_name = "National Heritage Museum"
+# app_version = "1.0.1"
+# worker_name = "digital-museum"
